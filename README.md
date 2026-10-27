@@ -5,6 +5,8 @@ geração em lote e envio por e-mail com log. Pode ter vários modelos de certif
 
 ## Como usar
 
+📖 Guia passo a passo: [docs/USO.md](docs/USO.md)
+
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
