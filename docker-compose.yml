@@ -1,0 +1,9 @@
+services:
+  certificados:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"   # só acessível da própria máquina
+    volumes:
+      - ./data:/app/data   # modelos, fontes, backups e lixeira
+      - ./saida:/app/saida
+    restart: unless-stopped
