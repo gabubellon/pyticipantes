@@ -1,0 +1,11 @@
+.git
+.github
+.venv
+.vscode
+__pycache__
+*.pyc
+.env
+saida
+data
+tests
+src/pyticipantes/site

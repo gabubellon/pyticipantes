@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyticipantes"
+dynamic = ["version"]
+description = "Certificados de participação em PDF a partir de uma planilha, com prévia ao vivo e envio por e-mail."
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["certificados", "pdf", "eventos", "flask", "self-hosted"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Framework :: Flask",
+    "Natural Language :: Portuguese (Brazilian)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "flask>=3.0",
+    "pandas>=2.2",
+    "reportlab>=4.2",
+    "openpyxl>=3.1",
+    "xlrd>=2.0",
+    "waitress>=3.0",
+]
+
+[project.scripts]
+pyticipantes = "pyticipantes.__main__:main"
+
+[project.urls]
+Repository = "https://github.com/gabubellon/pyticipantes"
+Documentation = "https://gabubellon.github.io/pyticipantes/"
+
+[dependency-groups]  # PEP 735: pip install --group docs
+docs = ["mkdocs>=1.6", "mkdocs-material>=9.5"]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.hatch.version]
+path = "src/pyticipantes/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyticipantes"]
+artifacts = ["src/pyticipantes/site"]  # documentação gerada (make docs), se existir
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# PEP 8 (pycodestyle E/W), pyflakes, isort, pep8-naming, pyupgrade e bugbear
+select = ["E", "W", "F", "I", "N", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

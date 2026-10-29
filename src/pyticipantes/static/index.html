@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pyticipantes</title>
+<style>
+  :root { --bg:#f7f7f5; --card:#fff; --txt:#1f2328; --mut:#6e7681; --bd:#e2e4e8; --pri:#185666; --pri-t:#fff; --soft:#e8f1f3; --err:#b3261e; --ok:#1b7f3b; color-scheme:light; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.5 system-ui,sans-serif; background:var(--bg); color:var(--txt); }
+  header { display:flex; align-items:center; gap:10px; padding:14px 24px; background:var(--card); border-bottom:1px solid var(--bd); }
+  header h1 { font-size:17px; margin:0; color:var(--pri); flex:1; }
+  header a { color:var(--pri); text-decoration:none; font-size:14px; white-space:nowrap; }
+  header a:hover { text-decoration:underline; }
+  header select { width:auto; min-width:200px; }
+  main { max-width:1100px; margin:0 auto; padding:24px; }
+
+  /* passos */
+  .passos { display:flex; gap:8px; margin-bottom:24px; }
+  .passos button { flex:1; display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(--card); border:1px solid var(--bd); border-radius:10px; cursor:pointer; text-align:left; color:var(--mut); }
+  .passos b { width:26px; height:26px; border-radius:50%; background:var(--bd); color:var(--txt); display:grid; place-items:center; font-size:13px; flex:none; }
+  .passos button.on { border-color:var(--pri); color:var(--txt); font-weight:600; }
+  .passos button.on b { background:var(--pri); color:var(--pri-t); }
+  @media (max-width:700px) { .passos span { display:none; } }
+
+  h2 { margin:0 0 4px; font-size:20px; }
+  .sub { color:var(--mut); margin:0 0 20px; }
+  .card { background:var(--card); border:1px solid var(--bd); border-radius:10px; padding:18px; margin-bottom:16px; }
+  .card h3 { margin:0 0 12px; font-size:15px; }
+
+  input, select, textarea, button { font:inherit; color:inherit; }
+  input[type=text], input[type=number], input[type=password], select, textarea { width:100%; padding:8px 10px; border:1px solid var(--bd); border-radius:8px; background:var(--bg); }
+  input:focus, select:focus, textarea:focus { outline:2px solid var(--pri); outline-offset:-1px; }
+  textarea { resize:vertical; }
+  label { display:block; font-size:13px; color:var(--mut); margin:0 0 4px; }
+  .btn { background:var(--pri); color:var(--pri-t); border:0; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:600; }
+  .sec { background:none; border:1px solid var(--bd); padding:8px 14px; border-radius:8px; cursor:pointer; }
+  .link { background:none; border:0; color:var(--pri); cursor:pointer; padding:0; }
+  .del { color:var(--err); }
+  button:disabled { opacity:.45; cursor:default; }
+
+  .grid { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); }
+  .bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .grow { flex:1; }
+  .rodape { display:flex; justify-content:space-between; margin-top:24px; }
+  .mut { color:var(--mut); } .erro { color:var(--err); } .ok { color:var(--ok); }
+  .hidden { display:none !important; }
+  code { background:var(--soft); padding:1px 6px; border-radius:4px; }
+
+  /* upload */
+  .drop { border:2px dashed var(--bd); border-radius:10px; padding:28px; text-align:center; cursor:pointer; display:block; color:var(--mut); }
+  .drop:hover { border-color:var(--pri); color:var(--pri); }
+  .drop input { display:none; }
+
+  /* tabelas */
+  .scroll { overflow:auto; max-height:380px; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--bd); }
+  th { color:var(--mut); font-weight:500; font-size:13px; position:sticky; top:0; background:var(--card); }
+
+  /* layout */
+  .design { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:24px; align-items:start; }
+  @media (max-width:900px) { .design { grid-template-columns:1fr; } }
+  .sticky { position:sticky; top:16px; }
+  iframe { width:100%; aspect-ratio:1.414; border:1px solid var(--bd); border-radius:10px; background:#fff; }
+  iframe.retrato { aspect-ratio:.707; max-width:420px; display:block; margin:auto; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chip { background:var(--soft); color:var(--pri); border:0; border-radius:6px; padding:3px 10px; cursor:pointer; font-family:monospace; }
+  .bloco { border:1px solid var(--bd); border-radius:10px; padding:14px; margin-bottom:12px; background:var(--card); }
+  .bloco textarea { margin-bottom:10px; }
+  .bloco > .grid { grid-template-columns:1.6fr .7fr .8fr 1.1fr; }
+  @media (max-width:560px) { .bloco > .grid { grid-template-columns:1fr 1fr; } }
+  details { margin-top:10px; }
+  summary { cursor:pointer; color:var(--mut); font-size:13px; }
+  details .grid { margin-top:10px; }
+  .log { background:#0d1117; color:#c9d1d9; font:12px/1.6 monospace; padding:12px; border-radius:8px; height:200px; overflow:auto; }
+  .log .ok { color:#56d364; } .log .erro { color:#ff7b72; } .log .aviso { color:#e3b341; }
+  #status { font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Pyticipantes</h1>
+  <select id="selModelo" title="Certificado"></select>
+  <button class="sec" id="btnNovo">+ Novo</button>
+  <span id="status" class="mut"></span>
+  <a href="/docs/" target="_blank" rel="noopener" title="Documentação">📖 Ajuda</a>
+</header>
+
+<main id="app" class="hidden">
+  <nav class="passos" id="abas">
+    <button data-aba="dados" class="on"><b>1</b><span>Planilha</span></button>
+    <button data-aba="design"><b>2</b><span>Layout</span></button>
+    <button data-aba="gerar"><b>3</b><span>Gerar</span></button>
+    <button data-aba="email"><b>4</b><span>Enviar</span></button>
+  </nav>
+
+  <!-- 1. PLANILHA -->
+  <section id="aba-dados">
+    <h2>Planilha de participantes</h2>
+    <p class="sub">Envie um arquivo com uma linha por certificado. Cada coluna pode ser usada nos textos.</p>
+    <div class="card">
+      <label class="drop">
+        <input type="file" id="filePlanilha" accept=".xlsx,.xls,.csv">
+        <strong>Clique para escolher a planilha</strong><br><span>.xlsx, .xls ou .csv</span>
+      </label>
+      <p id="infoPlanilha" class="mut" style="margin:12px 0 0"></p>
+      <p class="mut" style="margin:8px 0 0">Sem planilha à mão? Baixe os exemplos para testar:
+        <a href="/exemplos/exemplo.csv" download>planilha de exemplo (.csv)</a> ·
+        <a href="/exemplos/fundo-exemplo.png" download>imagem de fundo de exemplo (.png)</a></p>
+    </div>
+    <div class="card" id="cardAmostra">
+      <h3>Pré-visualização dos dados</h3>
+      <div class="scroll"><table id="tabAmostra"></table></div>
+    </div>
+    <div class="card">
+      <label>Nome deste certificado</label>
+      <input type="text" id="nomeModelo">
+      <p style="margin:12px 0 0"><button class="link del" id="btnExcluir">Excluir este certificado</button></p>
+    </div>
+    <div class="rodape"><span></span><button class="btn" data-ir="design">Próximo: layout →</button></div>
+  </section>
+
+  <!-- 2. LAYOUT -->
+  <section id="aba-design" class="hidden">
+    <h2>Layout do certificado</h2>
+    <p class="sub">Escreva os textos e veja o resultado ao lado. Use os campos da planilha entre chaves, ex.: <code>{nome}</code>.</p>
+    <div class="design">
+      <div>
+        <div class="card">
+          <div class="grid">
+            <div><label>Fundo (png/jpg)</label><input type="file" id="fileFundo" accept=".png,.jpg,.jpeg"></div>
+            <div><label>Orientação</label>
+              <select id="pagina"><option value="paisagem">Paisagem</option><option value="retrato">Retrato</option></select></div>
+          </div>
+          <div class="bar" style="margin-top:12px">
+            <a class="sec" id="linkExportar" style="text-decoration:none;color:inherit">⬇ Salvar layout em arquivo</a>
+            <label class="sec" style="margin:0;cursor:pointer;color:inherit">⬆ Carregar layout<input type="file" id="fileLayout" accept=".zip,.json" class="hidden"></label>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Campos da planilha <span class="mut" style="font-weight:400">— clique para inserir no texto</span></h3>
+          <div class="chips" id="chips"></div>
+          <div class="bar" style="margin-top:14px">
+            <label style="margin:0">Formato ao inserir:</label>
+            <select id="formato" style="width:auto">
+              <option value="">Como está na planilha</option>
+              <option value="maiusculo">MAIÚSCULAS</option>
+              <option value="minusculo">minúsculas</option>
+              <option value="titulo">Primeira Letra Maiúscula</option>
+              <option value="primeiro">Só o primeiro nome</option>
+              <option value="ultimo">Só o último sobrenome</option>
+              <option value="primeiro_ultimo">Primeiro e último nome</option>
+              <option value="abreviar">Abreviado (João M. S. S. Souza)</option>
+              <option value="iniciais">Iniciais (GAB)</option>
+            </select>
+          </div>
+          <p class="mut" style="margin:10px 0 0">Ou escreva à mão e combine: <code>{nome|titulo|abreviar}</code></p>
+        </div>
+        <div id="blocos"></div>
+        <button class="sec" id="btnAddBloco">+ Adicionar texto</button>
+        <details style="margin-top:16px">
+          <summary>Mais opções (fontes próprias, formatação)</summary>
+          <div class="card" style="margin-top:10px">
+            <label>Enviar fonte (.ttf)</label><input type="file" id="fileFonte" accept=".ttf">
+            <p class="mut" style="margin:10px 0 0">Nos textos você pode usar <code>&lt;b&gt;negrito&lt;/b&gt;</code>, <code>&lt;i&gt;itálico&lt;/i&gt;</code> e <code>&lt;u&gt;sublinhado&lt;/u&gt;</code>.</p>
+          </div>
+        </details>
+      </div>
+      <div class="sticky">
+        <div class="bar" style="margin-bottom:8px">
+          <strong class="grow">Prévia</strong>
+          <label style="margin:0">Participante nº</label>
+          <input type="number" id="linhaPrevia" value="1" min="1" style="width:72px">
+        </div>
+        <iframe id="previa"></iframe>
+      </div>
+    </div>
+    <div class="rodape"><button class="sec" data-ir="dados">← Voltar</button><button class="btn" data-ir="gerar">Próximo: gerar →</button></div>
+  </section>
+
+  <!-- 3. GERAR -->
+  <section id="aba-gerar" class="hidden">
+    <h2>Gerar certificados</h2>
+    <p class="sub">Cria um PDF para cada linha da planilha.</p>
+    <div class="card">
+      <label>Quantos certificados gerar?</label>
+      <div class="bar" style="margin-bottom:14px">
+        <label class="bar" style="margin:0;color:var(--txt)"><input type="radio" name="qtd" value="todos" checked> Todos <span id="totalLinhas" class="mut"></span></label>
+        <label class="bar" style="margin:0;color:var(--txt)"><input type="radio" name="qtd" value="limite"> Apenas os
+          <input type="number" id="limiteQtd" min="1" value="1" style="width:80px"> primeiros</label>
+      </div>
+      <div class="bar">
+        <button class="btn" id="btnGerar">Gerar</button>
+        <button class="sec" id="btnPasta">Abrir pasta</button>
+        <span id="msgGerar" class="mut"></span>
+      </div>
+      <details>
+        <summary>Opções</summary>
+        <div class="grid">
+          <div><label>Nome dos arquivos (aceita campos, ex.: {nome})</label><input type="text" id="nomeArquivo"></div>
+          <div><label>Coluna com o e-mail</label><input type="text" id="colunaEmail"></div>
+        </div>
+      </details>
+    </div>
+    <div class="card">
+      <h3>Certificados gerados</h3>
+      <div class="scroll"><table id="tabCert"></table></div>
+    </div>
+    <div class="rodape"><button class="sec" data-ir="design">← Voltar</button><button class="btn" data-ir="email">Próximo: enviar →</button></div>
+  </section>
+
+  <!-- 4. ENVIAR -->
+  <section id="aba-email" class="hidden">
+    <h2>Enviar por e-mail</h2>
+    <p class="sub">Opcional. Marque quem vai receber e acompanhe o envio.</p>
+    <div class="card">
+      <h3>Sua conta de e-mail</h3>
+      <div class="grid">
+        <div><label>E-mail</label><input type="text" id="smtpUsuario" placeholder="voce@gmail.com"></div>
+        <div><label>Senha de app (não é salva)</label><input type="password" id="smtpSenha" autocomplete="off"></div>
+      </div>
+      <details>
+        <summary>Servidor (padrão: Gmail)</summary>
+        <div class="grid">
+          <div><label>Servidor SMTP</label><input type="text" id="smtpServidor"></div>
+          <div><label>Porta</label><input type="number" id="smtpPorta"></div>
+          <div><label>Remetente (opcional)</label><input type="text" id="smtpRemetente"></div>
+          <div><label>Cópia / Cc</label><input type="text" id="smtpCc"></div>
+        </div>
+      </details>
+    </div>
+    <div class="card">
+      <h3>Mensagem</h3>
+      <label>Assunto</label><input type="text" id="mailAssunto">
+      <label style="margin-top:10px">Texto</label><textarea id="mailCorpo" rows="6"></textarea>
+      <p class="mut" style="margin:8px 0 0">Também aceita campos da planilha, ex.: <code>{nome}</code>.</p>
+    </div>
+    <div class="card">
+      <div class="bar" style="margin-bottom:10px">
+        <h3 style="margin:0" class="grow">Destinatários</h3>
+        <button class="sec" id="btnTodos">Marcar visíveis</button>
+        <button class="sec" id="btnPendentes">Só pendentes visíveis</button>
+      </div>
+      <input type="text" id="filtroEnvio" placeholder="Filtrar por nome ou e-mail…" style="margin-bottom:10px">
+      <p class="mut" style="margin:0 0 8px"><span id="contaEnvio"></span></p>
+      <div class="scroll" style="max-height:260px"><table id="tabEnvio"></table></div>
+      <div class="bar" style="margin-top:14px"><button class="btn" id="btnEnviar">Enviar selecionados</button></div>
+    </div>
+    <div class="card">
+      <h3>Andamento</h3>
+      <div class="log" id="log"></div>
+    </div>
+    <div class="rodape"><button class="sec" data-ir="gerar">← Voltar</button><span></span></div>
+  </section>
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

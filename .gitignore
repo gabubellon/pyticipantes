@@ -147,8 +147,14 @@ cython_debug/
 .DS_Store
 
 # Project specific
-certificados/
-*.xlsx
-!participantes.xlsx
+saida/
+.env
+~$*.xlsx
+data/modelos/
+data/fontes/
+data/backups/
+data/lixeira/
 
-
+# Documentação gerada (MkDocs)
+src/pyticipantes/site/
+.ruff_cache/

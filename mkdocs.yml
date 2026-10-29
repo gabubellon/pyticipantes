@@ -1,0 +1,25 @@
+site_name: Pyticipantes
+site_description: Certificados de participação em PDF a partir de planilha, com envio por e-mail. Self-hosted.
+docs_dir: docs
+site_url: http://127.0.0.1:8001/docs/   # slug fixo /docs (no app: http://127.0.0.1:8000/docs/)
+repo_url: https://github.com/gabubellon/pyticipantes
+repo_name: gabubellon/pyticipantes
+site_dir: src/pyticipantes/site
+use_directory_urls: true
+theme:
+  name: material
+  language: pt-BR
+  features: [navigation.sections, content.code.copy, search.highlight]
+hooks:
+  - hooks/exemplos.py
+nav:
+  - Início: index.md
+  - Instalação: INSTALACAO.md
+  - Guia de uso: USO.md
+  - Self-host: SELF-HOST.md
+  - Envio por e-mail: ENVIO-EMAIL.md
+  - Exemplos para teste: EXEMPLOS.md
+  - Campos e filtros: CAMPOS.md
+markdown_extensions:
+  - tables
+  - admonition
