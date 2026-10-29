@@ -1,105 +1,90 @@
-# Gerador de Certificados
+# Pyticipantes
 
-App web local para criar certificados em PDF a partir de uma planilha, com prévia ao vivo,
-geração em lote e envio por e-mail com log. Pode ter vários modelos de certificado.
+Gere **certificados de participação em PDF** a partir de uma planilha, com prévia ao vivo, geração
+em lote e envio por e-mail com log. Roda no seu computador ou no seu servidor (**self-hosted**):
+os dados dos participantes nunca saem da sua máquina.
 
-## Como usar
+📖 **Documentação:** [docs/index.md](docs/index.md) · [Guia de uso](docs/USO.md) ·
+[Self-host](docs/SELF-HOST.md) · [Envio por e-mail](docs/ENVIO-EMAIL.md)
 
-📖 Guia passo a passo: [docs/USO.md](docs/USO.md)
+## Começando
+
+### Com Docker ou Podman (recomendado)
 
 ```bash
+git clone https://github.com/gabubellon/pyticipantes.git
+cd pyticipantes
+make run            # ou: docker compose up -d --build
+```
+
+Abra **http://127.0.0.1:8000**. A documentação fica em `/docs/` no próprio app.
+
+### Com Python (>= 3.10)
+
+```bash
+git clone https://github.com/gabubellon/pyticipantes.git
+cd pyticipantes
 python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python -m pybr_certificados          # abre http://127.0.0.1:8000
+pip install .
+pyticipantes                # abre http://127.0.0.1:8000
 ```
 
-1. **Dados** — envie uma planilha `.xlsx`, `.xls` ou `.csv`. Cada coluna vira um marcador.
-2. **Design e prévia** — edite os textos, escolha fonte, tamanho, cor, alinhamento e posição,
-   envie a imagem de fundo (e fontes `.ttf`). A prévia atualiza ao vivo para a linha escolhida.
-3. **Gerar e listar** — gera um PDF por linha em `saida/<modelo>/`, lista os arquivos (clique
-   para abrir) e permite abrir a pasta.
-4. **Enviar e-mail** — configure o SMTP, assunto e corpo, marque os certificados e acompanhe o
-   log em tempo real. A tabela guarda quem já recebeu.
+Não tem planilha à mão? Use os [exemplos para teste](docs/EXEMPLOS.md) (planilha + imagem de fundo),
+também disponíveis para download dentro do app.
 
-### Docker
+## O que faz
+
+1. **Dados** — envie `.xlsx`, `.xls` ou `.csv`; cada coluna vira um marcador `{coluna}`.
+2. **Design e prévia** — textos, fontes, cores, posição e imagem de fundo, com prévia ao vivo.
+3. **Gerar** — um PDF por linha em `saida/<modelo>/`.
+4. **Enviar** — SMTP (ex.: Gmail com senha de app), reenvio só dos pendentes, retry automático e
+   log permanente em `saida/<modelo>/envios.log`.
+
+Marcadores aceitam filtros de nome, como `{nome|titulo|abreviar}`; veja
+[Campos e filtros](docs/CAMPOS.md).
+
+## Self-host
+
+Por padrão o app só escuta em `127.0.0.1`. Para publicá-lo num servidor, defina usuário e senha
+(`PYTICIPANTES_USUARIO` / `PYTICIPANTES_SENHA`) ou use um proxy reverso com autenticação e HTTPS.
+Passo a passo, backup e atualização em [docs/SELF-HOST.md](docs/SELF-HOST.md).
+
+| Variável | Padrão | Efeito |
+|---|---|---|
+| `PYTICIPANTES_PORTA` | `8000` | Porta |
+| `PYTICIPANTES_HOST` | `127.0.0.1` | Interface de escuta (`0.0.0.0` no Docker) |
+| `PYTICIPANTES_BIND` | `127.0.0.1` | Interface publicada no host pelo compose |
+| `PYTICIPANTES_USUARIO` / `PYTICIPANTES_SENHA` | vazio | Liga HTTP Basic |
+| `PYTICIPANTES_DATA` | `./data` | Modelos, fontes, backups, lixeira |
+| `PYTICIPANTES_SAIDA` | `./saida` | PDFs, manifesto e `envios.log` |
+
+Veja [.env.example](.env.example). **Não apague `data/`**: é onde ficam seus layouts.
+
+## Desenvolvimento
 
 ```bash
-make run        # sobe em http://127.0.0.1:8000
-make down       # desliga
-make restart    # religa (desliga e sobe de novo)
-make rebuild    # religa reconstruindo a imagem sem cache
-make logs       # acompanha os logs
-make status     # mostra se está rodando
+make install    # pip install -e . --group dev --group docs  (pip >= 25.1)
+make test       # pytest
+make lint       # ruff (PEP 8)
+make docs-serve # documentação em http://127.0.0.1:8001/docs/
 ```
 
-(Equivale a `docker compose up -d --build` / `docker compose down`.)
-
-`data/` (modelos, fontes, backups, lixeira) e `saida/` são montados como volumes, então nada se perde ao recriar o
-container. A porta é publicada apenas em `127.0.0.1`. O botão "Abrir pasta" não funciona dentro
-do container: use a pasta `saida/` do projeto.
-
-### Marcadores
-
-Use `{coluna}` em qualquer texto, no nome do arquivo, no assunto e no corpo do e-mail. O nome
-da coluna não diferencia maiúsculas de minúsculas e pode ter espaços (`{carga horária}`).
-Marcadores sem coluna correspondente permanecem visíveis no texto. Os textos aceitam
-`<b>`, `<i>` e `<u>`.
-
-#### Formatação do nome (filtros)
-
-Acrescente `|filtro` ao marcador. Dá para combinar vários, na ordem: `{nome|titulo|abreviar}`.
-Exemplo com `gabriel ALVES bezerra de souza bellon`:
-
-| Filtro | Resultado |
-|---|---|
-| `maiusculo` | GABRIEL ALVES BEZERRA DE SOUZA BELLON |
-| `minusculo` | gabriel alves bezerra de souza bellon |
-| `titulo` | Gabriel Alves Bezerra de Souza Bellon |
-| `primeiro` | gabriel |
-| `ultimo` | bellon |
-| `primeiro_ultimo` | gabriel bellon |
-| `abreviar` | gabriel A. B. S. bellon (use `titulo\|abreviar` → Gabriel A. B. S. Bellon) |
-| `iniciais` | GABSB |
-
-Partículas (de, da, do, dos…) são ignoradas nas iniciais. No passo 2 há um seletor de formato
-que já insere o filtro ao clicar no campo.
-
-O modelo padrão espera as colunas `nome`, `evento`, `hora`, `data`, `local` e `email`
-(veja `data/exemplo.csv`), mas você pode ter quantas colunas quiser e reescrever os textos.
-
-### E-mail (Gmail)
-
-Use uma [senha de app](https://myaccount.google.com/apppasswords), não a senha da conta.
-A senha é usada só durante o envio e **nunca é gravada em disco**.
-
-## Onde ficam seus layouts (e como não perdê-los)
-
-Cada certificado é salvo automaticamente em `data/modelos/<id>/modelo.json` (+ fundo e planilha).
-Além disso:
-
-- **Backups automáticos:** cada mudança no layout gera uma cópia em `data/backups/<id>/` (últimas 30).
-- **Lixeira:** "Excluir" move o certificado para `data/lixeira/` em vez de apagar.
-- **Exportar/importar:** no passo 2, "Salvar layout em arquivo" baixa um `.zip` (layout + fundo, sem a
-  planilha) e "Carregar layout" cria um novo certificado a partir dele. Guarde esse arquivo onde quiser.
-
-**Não apague a pasta `data/`** — é onde tudo mora. `PYBR_DATA=/outra/pasta` muda esse local.
-
-## Estrutura
-
 ```
-pybr_certificados/
-├── app.py        # servidor Flask (API)
+src/pyticipantes/
+├── app.py        # servidor Flask (API) + autenticação opcional
 ├── modelos.py    # modelos, planilhas e marcadores
 ├── render.py     # desenho do PDF (reportlab)
-├── emails.py     # envio SMTP em segundo plano com log
+├── emails.py     # envio SMTP em segundo plano, com retry e log
+├── exemplos/     # planilha e fundo de exemplo (baixáveis)
 └── static/       # interface (index.html + app.js)
-assets/           # imagens de fundo de exemplo (copiadas para novos modelos)
-data/exemplo.csv  # planilha de exemplo
-data/modelos/     # seus modelos (ignorado pelo git)
-saida/            # PDFs gerados (ignorado pelo git)
+docs/             # documentação (MkDocs)
+tests/            # pytest
 ```
+
+Dependências e ferramentas ficam em [pyproject.toml](pyproject.toml) (PEP 621; grupos `dev` e `docs`
+via PEP 735).
 
 ## Privacidade
 
-O servidor escuta apenas em `127.0.0.1`. Modelos, planilhas e PDFs contêm dados pessoais e estão
-no `.gitignore`.
+Modelos, planilhas e PDFs contêm dados pessoais e estão no `.gitignore`. A senha SMTP é usada só
+durante o envio e nunca é gravada.

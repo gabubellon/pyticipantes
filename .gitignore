@@ -154,3 +154,7 @@ data/modelos/
 data/fontes/
 data/backups/
 data/lixeira/
+
+# Documentação gerada (MkDocs)
+src/pyticipantes/site/
+.ruff_cache/

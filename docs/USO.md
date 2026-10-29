@@ -1,4 +1,4 @@
-# Como usar o Gerador de Certificados
+# Como usar o Pyticipantes
 
 Guia rápido, passo a passo, para quem vai gerar e enviar certificados.
 
@@ -7,8 +7,8 @@ Guia rápido, passo a passo, para quem vai gerar e enviar certificados.
 ```bash
 make run          # com Docker/Podman
 # ou, sem Docker:
-pip install -r requirements.txt
-python -m pybr_certificados
+pip install .
+pyticipantes
 ```
 
 Abra **http://127.0.0.1:8000**. Para desligar: `make down` (ou `Ctrl+C`, sem Docker).
@@ -24,7 +24,7 @@ Crie um arquivo `.xlsx`, `.xls` ou `.csv` com **uma linha por certificado** e um
 
 - Os nomes das colunas são livres. Cada coluna vira um **campo** que você usa nos textos.
 - Para enviar e-mail, uma coluna precisa ter o e-mail (por padrão `email`).
-- Há um exemplo em `data/exemplo.csv`.
+- Quer testar? Baixe a [planilha e o fundo de exemplo](EXEMPLOS.md).
 
 ## 3. Os 4 passos
 
@@ -47,18 +47,18 @@ Tudo é salvo automaticamente.
 #### Formatando nomes
 Acrescente `|filtro` ao campo. Pode combinar: `{nome|titulo|abreviar}`.
 
-| Filtro | Resultado para `gabriel ALVES bezerra de souza bellon` |
+| Filtro | Resultado para `joão MANOELA da silva santos souza` |
 |---|---|
-| `maiusculo` | GABRIEL ALVES BEZERRA DE SOUZA BELLON |
-| `minusculo` | gabriel alves bezerra de souza bellon |
-| `titulo` | Gabriel Alves Bezerra de Souza Bellon |
-| `primeiro` | gabriel |
-| `ultimo` | bellon |
-| `primeiro_ultimo` | gabriel bellon |
-| `abreviar` | gabriel A. B. S. bellon |
-| `iniciais` | GABSB |
+| `maiusculo` | JOÃO MANOELA DA SILVA SANTOS SOUZA |
+| `minusculo` | joão manoela da silva santos souza |
+| `titulo` | João Manoela da Silva Santos Souza |
+| `primeiro` | joão |
+| `ultimo` | souza |
+| `primeiro_ultimo` | joão souza |
+| `abreviar` | joão M. S. S. souza |
+| `iniciais` | JMSSS |
 
-Dica: `{nome|titulo|abreviar}` → **Gabriel A. B. S. Bellon**. O seletor "Formato ao inserir"
+Dica: `{nome|titulo|abreviar}` → **João M. S. S. Souza**. O seletor "Formato ao inserir"
 já coloca o filtro para você ao clicar num campo.
 
 Também dá para usar `<b>negrito</b>`, `<i>itálico</i>` e `<u>sublinhado</u>` nos textos.
@@ -77,6 +77,9 @@ Os PDFs vão para `saida/<certificado>/`. Clique num nome da lista para abrir o 
 3. Na lista de destinatários, use o filtro por nome ou e-mail, **Marcar visíveis** ou
    **Só pendentes visíveis** e marque quem vai receber.
 4. Clique em **Enviar** e acompanhe o andamento. A tabela mostra quem já recebeu ou deu erro.
+
+Detalhes, limites do Gmail e como reenviar: veja [Envio por e-mail](ENVIO-EMAIL.md).
+O histórico fica em `saida/<certificado>/envios.log`.
 
 Faça um teste antes: gere com "Apenas os 1 primeiros", com seu próprio e-mail na planilha.
 
@@ -97,4 +100,5 @@ Faça um teste antes: gere com "Apenas os 1 primeiros", com seu próprio e-mail 
 | Falha de autenticação no envio | Use uma **senha de app**, não a senha da conta. |
 | E-mail "sem e-mail" na lista | Ajuste a **Coluna com o e-mail** em Gerar → Opções. |
 | Acentos estranhos num `.csv` | Salve o CSV como UTF-8. |
+| Envio parou com erro 421 / timeout | Limite temporário do Google. Aguarde e reenvie só os pendentes (sem gerar de novo). Veja [Envio por e-mail](ENVIO-EMAIL.md). |
 | `make run` falha | Veja `make logs`; confirme que Docker ou Podman está iniciado. |

@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gerador de Certificados</title>
+<title>Pyticipantes</title>
 <style>
   :root { --bg:#f7f7f5; --card:#fff; --txt:#1f2328; --mut:#6e7681; --bd:#e2e4e8; --pri:#185666; --pri-t:#fff; --soft:#e8f1f3; --err:#b3261e; --ok:#1b7f3b; color-scheme:light; }
   * { box-sizing:border-box; }
   body { margin:0; font:15px/1.5 system-ui,sans-serif; background:var(--bg); color:var(--txt); }
   header { display:flex; align-items:center; gap:10px; padding:14px 24px; background:var(--card); border-bottom:1px solid var(--bd); }
   header h1 { font-size:17px; margin:0; color:var(--pri); flex:1; }
+  header a { color:var(--pri); text-decoration:none; font-size:14px; white-space:nowrap; }
+  header a:hover { text-decoration:underline; }
   header select { width:auto; min-width:200px; }
   main { max-width:1100px; margin:0 auto; padding:24px; }
 
@@ -78,10 +80,11 @@
 </head>
 <body>
 <header>
-  <h1>Gerador de Certificados</h1>
+  <h1>Pyticipantes</h1>
   <select id="selModelo" title="Certificado"></select>
   <button class="sec" id="btnNovo">+ Novo</button>
   <span id="status" class="mut"></span>
+  <a href="/docs/" target="_blank" rel="noopener" title="Documentação">📖 Ajuda</a>
 </header>
 
 <main id="app" class="hidden">
@@ -102,6 +105,9 @@
         <strong>Clique para escolher a planilha</strong><br><span>.xlsx, .xls ou .csv</span>
       </label>
       <p id="infoPlanilha" class="mut" style="margin:12px 0 0"></p>
+      <p class="mut" style="margin:8px 0 0">Sem planilha à mão? Baixe os exemplos para testar:
+        <a href="/exemplos/exemplo.csv" download>planilha de exemplo (.csv)</a> ·
+        <a href="/exemplos/fundo-exemplo.png" download>imagem de fundo de exemplo (.png)</a></p>
     </div>
     <div class="card" id="cardAmostra">
       <h3>Pré-visualização dos dados</h3>
@@ -145,7 +151,7 @@
               <option value="primeiro">Só o primeiro nome</option>
               <option value="ultimo">Só o último sobrenome</option>
               <option value="primeiro_ultimo">Primeiro e último nome</option>
-              <option value="abreviar">Abreviado (Gabriel A. B. Bellon)</option>
+              <option value="abreviar">Abreviado (João M. S. S. Souza)</option>
               <option value="iniciais">Iniciais (GAB)</option>
             </select>
           </div>

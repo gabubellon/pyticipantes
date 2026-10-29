@@ -1,4 +1,5 @@
-"""Servidor web local: modelos, prévia, geração e envio."""
+"""Servidor web: modelos, prévia, geração e envio."""
+import hmac
 import json
 import os
 import subprocess
@@ -8,12 +9,35 @@ import webbrowser
 from pathlib import Path
 from urllib.parse import urlparse
 
-from flask import Flask, abort, jsonify, request, send_from_directory, Response
+from flask import Flask, Response, abort, jsonify, request, send_from_directory
 
-from . import config, emails, modelos, render
+from . import __version__, config, emails, modelos, render
 
 app = Flask(__name__, static_folder="static", static_url_path="/static")
 app.config["MAX_CONTENT_LENGTH"] = 25 * 1024 * 1024
+
+
+_USUARIO = os.getenv("PYTICIPANTES_USUARIO", "")
+_SENHA = os.getenv("PYTICIPANTES_SENHA", "")
+_AUTENTICACAO = bool(_USUARIO and _SENHA)  # opcional: protege o app quando exposto na rede
+
+
+@app.before_request
+def _autenticar():
+    """HTTP Basic opcional (PYTICIPANTES_USUARIO/PYTICIPANTES_SENHA). /saude fica livre."""
+    if not _AUTENTICACAO or request.path == "/saude":
+        return None
+    cred = request.authorization
+    if (cred and hmac.compare_digest(cred.username or "", _USUARIO)
+            and hmac.compare_digest(cred.password or "", _SENHA)):
+        return None
+    return Response("Autenticação necessária.", 401,
+                    {"WWW-Authenticate": 'Basic realm="Pyticipantes"'})
+
+
+@app.get("/saude")
+def saude():
+    return jsonify(status="ok", versao=__version__)
 
 
 @app.before_request
@@ -39,6 +63,26 @@ def _erro(e):
 @app.get("/")
 def index():
     return send_from_directory(app.static_folder, "index.html")
+
+
+@app.get("/exemplos/<nome>")
+def exemplos(nome):
+    """Planilha e fundo de exemplo para download."""
+    if nome not in ("exemplo.csv", "fundo-exemplo.png"):
+        abort(404)
+    return send_from_directory(config.DIR_EXEMPLOS, nome, as_attachment=True)
+
+
+@app.get("/docs/")
+@app.get("/docs/<path:caminho>")
+def documentacao(caminho="index.html"):
+    """Documentação (MkDocs) gerada em src/pyticipantes/site; veja `make docs`."""
+    pasta = Path(app.root_path) / "site"
+    if not pasta.is_dir():
+        return Response("Documentação não gerada. Rode `make docs` (ou reconstrua a imagem).", 404)
+    if (pasta / caminho).is_dir():
+        caminho = f"{caminho.rstrip('/')}/index.html"
+    return send_from_directory(pasta, caminho)
 
 
 # --- Modelos ----------------------------------------------------------------
@@ -174,7 +218,8 @@ def api_gerar(id_):
         arquivo = f"{i:03d}_{base}.pdf"
         (pasta / arquivo).write_bytes(render.renderizar(modelo, dados))
         email = next((v for k, v in dados.items() if k.lower() == col_email), "")
-        nome = next((v for k, v in dados.items() if k.lower() == "nome"), next(iter(dados.values()), ""))
+        primeiro = next(iter(dados.values()), "")
+        nome = next((v for k, v in dados.items() if k.lower() == "nome"), primeiro)
         itens.append({"arquivo": arquivo, "linha": i, "nome": nome, "email": email,
                       "dados": dados, "enviado_em": None, "erro": None})
     _gravar_manifesto(id_, itens)
@@ -237,11 +282,15 @@ def api_envio(job):
     return jsonify(envio)
 
 
-def main(porta: int = 8000) -> None:
+def servir(host: str = "127.0.0.1", porta: int = 8000) -> None:
+    from waitress import serve
+
     config.DIR_MODELOS.mkdir(parents=True, exist_ok=True)
-    host = os.getenv("HOST", "127.0.0.1")  # no Docker: 0.0.0.0 (a porta é publicada só em localhost)
-    url = f"http://127.0.0.1:{porta}"
-    if host == "127.0.0.1":
+    url = f"http://{'127.0.0.1' if host in ('0.0.0.0', '::') else host}:{porta}"
+    if host == "127.0.0.1" and not os.getenv("PYTICIPANTES_SEM_NAVEGADOR"):
         threading.Timer(1, lambda: webbrowser.open(url)).start()
-    print(f"Gerador de certificados em {url}  (Ctrl+C para sair)", flush=True)
-    app.run(host=host, port=porta, debug=False, threaded=True)
+    if host not in ("127.0.0.1", "localhost", "::1") and not _AUTENTICACAO:
+        print("AVISO: acessível pela rede e sem senha. Defina PYTICIPANTES_USUARIO e "
+              "PYTICIPANTES_SENHA ou ponha o app atrás de um proxy com autenticação.", flush=True)
+    print(f"Pyticipantes {__version__} em {url}  (Ctrl+C para sair)", flush=True)
+    serve(app, host=host, port=porta, threads=8)

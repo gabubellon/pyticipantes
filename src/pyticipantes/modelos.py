@@ -1,7 +1,7 @@
 """Armazenamento dos modelos de certificado e leitura das planilhas."""
+import io
 import json
 import re
-import io
 import shutil
 import time
 import uuid
@@ -40,7 +40,8 @@ def modelo_padrao(nome: str, id_: str) -> dict:
         "email": {
             "servidor": "smtp.gmail.com", "porta": 587, "usuario": "", "remetente": "",
             "cc": "", "assunto": "Certificado - {evento}",
-            "corpo": "Olá {nome},\n\nSegue em anexo o seu certificado de {evento}.\n\nAtenciosamente,\nOrganização",
+            "corpo": ("Olá {nome},\n\nSegue em anexo o seu certificado de {evento}."
+                      "\n\nAtenciosamente,\nOrganização"),
         },
     }
 
@@ -133,7 +134,8 @@ def importar(arquivo) -> dict:
             (pasta / f"fundo{ext}").write_bytes(fundo)
             novo["fundo"] = f"fundo{ext}"
     novo["email"]["usuario"] = novo["email"].get("usuario", "")
-    (pasta / "modelo.json").write_text(json.dumps(novo, ensure_ascii=False, indent=2), encoding="utf-8")
+    (pasta / "modelo.json").write_text(
+        json.dumps(novo, ensure_ascii=False, indent=2), encoding="utf-8")
     _backup(novo)
     return novo
 
@@ -146,10 +148,9 @@ def criar(nome: str) -> dict:
     if config.EXEMPLO.exists():
         shutil.copy(config.EXEMPLO, pasta / "planilha.csv")
         modelo["planilha"] = "planilha.csv"
-    fundos = sorted(p for p in config.DIR_ASSETS.glob("*") if p.suffix.lower() in config.EXT_FUNDO)
-    if fundos:  # fundo de exemplo, trocável na interface
-        shutil.copy(fundos[0], pasta / f"fundo{fundos[0].suffix.lower()}")
-        modelo["fundo"] = f"fundo{fundos[0].suffix.lower()}"
+    if config.FUNDO_EXEMPLO.exists():  # fundo de exemplo, trocável na interface
+        shutil.copy(config.FUNDO_EXEMPLO, pasta / "fundo.png")
+        modelo["fundo"] = "fundo.png"
     (pasta / "modelo.json").write_text(
         json.dumps(modelo, ensure_ascii=False, indent=2), encoding="utf-8")
     return modelo
@@ -215,11 +216,12 @@ def _partes(v: str) -> list[str]:
 
 def _titulo(v: str) -> str:
     palavras = [p[:1].upper() + p[1:].lower() for p in _partes(v)]
-    return " ".join(w.lower() if i and w.lower() in PARTICULAS else w for i, w in enumerate(palavras))
+    return " ".join(w.lower() if i and w.lower() in PARTICULAS else w
+                    for i, w in enumerate(palavras))
 
 
 def _abreviar(v: str) -> str:
-    """Primeiro nome + iniciais dos nomes do meio + último sobrenome: Gabriel A. B. Bellon."""
+    """Primeiro nome + iniciais dos nomes do meio + último sobrenome: João M. S. S. Souza."""
     p = _partes(v)
     if len(p) <= 2:
         return v
@@ -237,7 +239,8 @@ FILTROS = {
     "titulo": _titulo,
     "primeiro": lambda v: (_partes(v) or [""])[0],
     "ultimo": lambda v: (_partes(v) or [""])[-1],
-    "primeiro_ultimo": lambda v: " ".join(_partes(v)[:1] + _partes(v)[-1:]) if len(_partes(v)) > 1 else v,
+    "primeiro_ultimo": lambda v: (
+        " ".join(_partes(v)[:1] + _partes(v)[-1:]) if len(_partes(v)) > 1 else v),
     "abreviar": _abreviar,
     "iniciais": _iniciais,
 }

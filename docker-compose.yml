@@ -1,9 +1,30 @@
+# Self-host: `cp .env.example .env` (opcional) e `make run` (ou `docker compose up -d --build`).
 services:
-  certificados:
+  pyticipantes:
     build: .
+    image: pyticipantes
     ports:
-      - "127.0.0.1:8000:8000"   # só acessível da própria máquina
+      # Por padrão só acessível da própria máquina. Para expor na rede, use PYTICIPANTES_BIND=0.0.0.0
+      # E defina usuário/senha (abaixo) ou um proxy reverso com autenticação.
+      - "${PYTICIPANTES_BIND:-127.0.0.1}:${PYTICIPANTES_PORTA:-8000}:8000"
+    environment:
+      PYTICIPANTES_USUARIO: ${PYTICIPANTES_USUARIO:-}
+      PYTICIPANTES_SENHA: ${PYTICIPANTES_SENHA:-}
     volumes:
-      - ./data:/app/data   # modelos, fontes, backups e lixeira
-      - ./saida:/app/saida
+      - ./data:/app/data     # modelos, fontes, backups e lixeira
+      - ./saida:/app/saida   # PDFs gerados e envios.log
+    restart: unless-stopped
+
+  docs:   # documentação com recarga automática: http://127.0.0.1:8001/docs/ (opcional, para quem edita a doc)
+    build:
+      context: .
+      target: docs
+    command: mkdocs serve -a 0.0.0.0:8001
+    ports:
+      - "127.0.0.1:8001:8001"
+    volumes:
+      - ./docs:/src/docs
+      - ./hooks:/src/hooks
+      - ./src/pyticipantes/exemplos:/src/src/pyticipantes/exemplos
+      - ./mkdocs.yml:/src/mkdocs.yml
     restart: unless-stopped

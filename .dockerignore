@@ -1,8 +1,11 @@
 .git
+.github
 .venv
 .vscode
 __pycache__
-saida
-data/modelos
-data/fontes
+*.pyc
 .env
+saida
+data
+tests
+src/pyticipantes/site
