@@ -84,6 +84,12 @@ tests/            # pytest
 Dependências e ferramentas ficam em [pyproject.toml](pyproject.toml) (PEP 621; grupos `dev` e `docs`
 via PEP 735).
 
+## Licença
+
+[AGPL-3.0](LICENSE): uso gratuito; cópias e versões modificadas (inclusive oferecidas como serviço)
+precisam manter a origem e publicar o código sob a mesma licença. Para usar sem essas obrigações,
+veja a [licença comercial](COMMERCIAL.md). Contribuições: [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Privacidade
 
 Modelos, planilhas e PDFs contêm dados pessoais e estão no `.gitignore`. A senha SMTP é usada só
