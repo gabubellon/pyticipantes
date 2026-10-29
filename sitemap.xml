@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>http://127.0.0.1:8001/docs/</loc>
+         <lastmod>2026-10-29</lastmod>
+    </url>
+    <url>
+         <loc>http://127.0.0.1:8001/docs/CAMPOS/</loc>
+         <lastmod>2026-10-29</lastmod>
+    </url>
+    <url>
+         <loc>http://127.0.0.1:8001/docs/ENVIO-EMAIL/</loc>
+         <lastmod>2026-10-29</lastmod>
+    </url>
+    <url>
+         <loc>http://127.0.0.1:8001/docs/EXEMPLOS/</loc>
+         <lastmod>2026-10-29</lastmod>
+    </url>
+    <url>
+         <loc>http://127.0.0.1:8001/docs/INSTALACAO/</loc>
+         <lastmod>2026-10-29</lastmod>
+    </url>
+    <url>
+         <loc>http://127.0.0.1:8001/docs/SELF-HOST/</loc>
+         <lastmod>2026-10-29</lastmod>
+    </url>
+    <url>
+         <loc>http://127.0.0.1:8001/docs/USO/</loc>
+         <lastmod>2026-10-29</lastmod>
+    </url>
+</urlset>

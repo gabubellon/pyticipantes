@@ -1,0 +1,972 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Certificados de participação em PDF a partir de planilha, com envio por e-mail. Self-hosted.">
+      
+      
+      
+        <link rel="canonical" href="http://127.0.0.1:8001/docs/USO/">
+      
+      
+        <link rel="prev" href="../INSTALACAO/">
+      
+      
+        <link rel="next" href="../SELF-HOST/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Guia de uso - Pyticipantes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#como-usar-o-pyticipantes" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Pyticipantes" class="md-header__button md-logo" aria-label="Pyticipantes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pyticipantes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Guia de uso
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/gabubellon/pyticipantes" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gabubellon/pyticipantes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pyticipantes" class="md-nav__button md-logo" aria-label="Pyticipantes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pyticipantes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/gabubellon/pyticipantes" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gabubellon/pyticipantes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INSTALACAO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instalação
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guia de uso
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guia de uso
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-abrir-o-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Abrir o app
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-preparar-a-planilha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Preparar a planilha
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-os-4-passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Os 4 passos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Os 4 passos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passo-1-planilha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 1 — Planilha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-2-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2 — Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Passo 2 — Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formatando-nomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formatando nomes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-3-gerar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 3 — Gerar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-4-enviar-por-e-mail-opcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 4 — Enviar por e-mail (opcional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-nao-perder-seus-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Não perder seus layouts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-problemas-comuns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Problemas comuns
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SELF-HOST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Self-host
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ENVIO-EMAIL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Envio por e-mail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXEMPLOS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exemplos para teste
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CAMPOS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Campos e filtros
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-abrir-o-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Abrir o app
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-preparar-a-planilha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Preparar a planilha
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-os-4-passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Os 4 passos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Os 4 passos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#passo-1-planilha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 1 — Planilha
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-2-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2 — Layout
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Passo 2 — Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formatando-nomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formatando nomes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-3-gerar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 3 — Gerar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passo-4-enviar-por-e-mail-opcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 4 — Enviar por e-mail (opcional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-nao-perder-seus-layouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Não perder seus layouts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-problemas-comuns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Problemas comuns
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="como-usar-o-pyticipantes">Como usar o Pyticipantes</h1>
+<p>Guia rápido, passo a passo, para quem vai gerar e enviar certificados.</p>
+<h2 id="1-abrir-o-app">1. Abrir o app</h2>
+<pre><code class="language-bash">make run          # com Docker/Podman
+# ou, sem Docker:
+pip install .
+pyticipantes
+</code></pre>
+<p>Abra <strong>http://127.0.0.1:8000</strong>. Para desligar: <code>make down</code> (ou <code>Ctrl+C</code>, sem Docker).
+Seus dados ficam na pasta <code>data/</code> e nunca se perdem ao desligar.</p>
+<h2 id="2-preparar-a-planilha">2. Preparar a planilha</h2>
+<p>Crie um arquivo <code>.xlsx</code>, <code>.xls</code> ou <code>.csv</code> com <strong>uma linha por certificado</strong> e uma linha de cabeçalho:</p>
+<table>
+<thead>
+<tr>
+<th>nome</th>
+<th>email</th>
+<th>evento</th>
+<th>data</th>
+<th>hora</th>
+<th>local</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Maria Souza</td>
+<td>maria@exemplo.com</td>
+<td>Tutorial de Python</td>
+<td>21 de Outubro</td>
+<td>4 horas</td>
+<td>Auditório A</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Os nomes das colunas são livres. Cada coluna vira um <strong>campo</strong> que você usa nos textos.</li>
+<li>Para enviar e-mail, uma coluna precisa ter o e-mail (por padrão <code>email</code>).</li>
+<li>Quer testar? Baixe a <a href="../EXEMPLOS/">planilha e o fundo de exemplo</a>.</li>
+</ul>
+<h2 id="3-os-4-passos">3. Os 4 passos</h2>
+<p>Na barra do topo escolha o certificado (ou crie outro em <strong>+ Novo</strong>) e siga os passos.</p>
+<h3 id="passo-1-planilha">Passo 1 — Planilha</h3>
+<p>Clique na área tracejada e escolha o arquivo. Confira a tabela de pré-visualização.
+Aqui você também muda o <strong>nome do certificado</strong>.</p>
+<h3 id="passo-2-layout">Passo 2 — Layout</h3>
+<ul>
+<li><strong>Fundo:</strong> envie uma imagem png ou jpg. <strong>Orientação:</strong> paisagem ou retrato.</li>
+<li><strong>Textos:</strong> cada caixa é um texto do certificado. Escolha fonte, tamanho, cor e alinhamento.
+  Em <strong>Posição</strong> ajuste onde ele fica (% da página, medido a partir do topo e da esquerda).</li>
+<li><strong>Campos:</strong> escreva <code>{nome}</code>, <code>{evento}</code>... ou clique num chip da lista para inserir no texto.</li>
+<li><strong>Prévia:</strong> à direita, atualiza sozinha. Mude o "Participante nº" para ver outras linhas.</li>
+<li>Use <strong>+ Adicionar texto</strong> para mais textos e ↑ ↓ para reordenar.</li>
+</ul>
+<p>Tudo é salvo automaticamente.</p>
+<h4 id="formatando-nomes">Formatando nomes</h4>
+<p>Acrescente <code>|filtro</code> ao campo. Pode combinar: <code>{nome|titulo|abreviar}</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Filtro</th>
+<th>Resultado para <code>joão MANOELA da silva santos souza</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>maiusculo</code></td>
+<td>JOÃO MANOELA DA SILVA SANTOS SOUZA</td>
+</tr>
+<tr>
+<td><code>minusculo</code></td>
+<td>joão manoela da silva santos souza</td>
+</tr>
+<tr>
+<td><code>titulo</code></td>
+<td>João Manoela da Silva Santos Souza</td>
+</tr>
+<tr>
+<td><code>primeiro</code></td>
+<td>joão</td>
+</tr>
+<tr>
+<td><code>ultimo</code></td>
+<td>souza</td>
+</tr>
+<tr>
+<td><code>primeiro_ultimo</code></td>
+<td>joão souza</td>
+</tr>
+<tr>
+<td><code>abreviar</code></td>
+<td>joão M. S. S. souza</td>
+</tr>
+<tr>
+<td><code>iniciais</code></td>
+<td>JMSSS</td>
+</tr>
+</tbody>
+</table>
+<p>Dica: <code>{nome|titulo|abreviar}</code> → <strong>João M. S. S. Souza</strong>. O seletor "Formato ao inserir"
+já coloca o filtro para você ao clicar num campo.</p>
+<p>Também dá para usar <code>&lt;b&gt;negrito&lt;/b&gt;</code>, <code>&lt;i&gt;itálico&lt;/i&gt;</code> e <code>&lt;u&gt;sublinhado&lt;/u&gt;</code> nos textos.
+Se um campo ou filtro estiver escrito errado, ele aparece como está na prévia, então é fácil notar.</p>
+<h3 id="passo-3-gerar">Passo 3 — Gerar</h3>
+<p>Escolha <strong>Todos</strong> ou <strong>Apenas os N primeiros</strong> (ótimo para testar) e clique em <strong>Gerar</strong>.
+Os PDFs vão para <code>saida/&lt;certificado&gt;/</code>. Clique num nome da lista para abrir o PDF.</p>
+<blockquote>
+<p>Gerar de novo apaga os PDFs anteriores deste certificado.</p>
+</blockquote>
+<h3 id="passo-4-enviar-por-e-mail-opcional">Passo 4 — Enviar por e-mail (opcional)</h3>
+<ol>
+<li>Informe seu <strong>e-mail</strong> e a <strong>senha de app</strong>. No Gmail crie uma em
+   https://myaccount.google.com/apppasswords (não use a senha normal). A senha não é salva.</li>
+<li>Escreva o <strong>assunto</strong> e o <strong>texto</strong>. Pode usar campos, ex.: <code>Olá {nome|primeiro},</code>.</li>
+<li>Na lista de destinatários, use o filtro por nome ou e-mail, <strong>Marcar visíveis</strong> ou
+   <strong>Só pendentes visíveis</strong> e marque quem vai receber.</li>
+<li>Clique em <strong>Enviar</strong> e acompanhe o andamento. A tabela mostra quem já recebeu ou deu erro.</li>
+</ol>
+<p>Detalhes, limites do Gmail e como reenviar: veja <a href="../ENVIO-EMAIL/">Envio por e-mail</a>.
+O histórico fica em <code>saida/&lt;certificado&gt;/envios.log</code>.</p>
+<p>Faça um teste antes: gere com "Apenas os 1 primeiros", com seu próprio e-mail na planilha.</p>
+<h2 id="4-nao-perder-seus-layouts">4. Não perder seus layouts</h2>
+<ul>
+<li>Cada mudança gera um backup em <code>data/backups/</code> e "Excluir" move para <code>data/lixeira/</code>.</li>
+<li>No passo 2, <strong>⬇ Salvar layout em arquivo</strong> baixa um <code>.zip</code> (sem a planilha) e
+  <strong>⬆ Carregar layout</strong> cria um certificado a partir dele. Guarde uma cópia fora do computador.</li>
+<li>Nunca apague a pasta <code>data/</code>.</li>
+</ul>
+<h2 id="5-problemas-comuns">5. Problemas comuns</h2>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>O que fazer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Não foi possível ler a planilha"</td>
+<td>Confira se é <code>.xlsx</code>, <code>.xls</code> ou <code>.csv</code> e se a primeira linha é o cabeçalho.</td>
+</tr>
+<tr>
+<td>Aparece <code>{campo}</code> no certificado</td>
+<td>O nome não bate com a coluna da planilha (maiúsculas não importam).</td>
+</tr>
+<tr>
+<td>Texto cortado ou fora do lugar</td>
+<td>Aumente a <strong>Largura</strong> ou ajuste <strong>Topo/Esquerda</strong> em Posição.</td>
+</tr>
+<tr>
+<td>Falha de autenticação no envio</td>
+<td>Use uma <strong>senha de app</strong>, não a senha da conta.</td>
+</tr>
+<tr>
+<td>E-mail "sem e-mail" na lista</td>
+<td>Ajuste a <strong>Coluna com o e-mail</strong> em Gerar → Opções.</td>
+</tr>
+<tr>
+<td>Acentos estranhos num <code>.csv</code></td>
+<td>Salve o CSV como UTF-8.</td>
+</tr>
+<tr>
+<td>Envio parou com erro 421 / timeout</td>
+<td>Limite temporário do Google. Aguarde e reenvie só os pendentes (sem gerar de novo). Veja <a href="../ENVIO-EMAIL/">Envio por e-mail</a>.</td>
+</tr>
+<tr>
+<td><code>make run</code> falha</td>
+<td>Veja <code>make logs</code>; confirme que Docker ou Podman está iniciado.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "content.code.copy", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>
