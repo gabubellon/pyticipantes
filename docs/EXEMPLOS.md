@@ -4,8 +4,8 @@ Quer experimentar antes de usar seus dados? Baixe os dois arquivos abaixo.
 
 | Arquivo | Para quê |
 |---|---|
-| [exemplo.csv](../exemplos/exemplo.csv) | Planilha com 3 participantes fictícios (passo 1) |
-| [fundo-exemplo.png](../exemplos/fundo-exemplo.png) | Imagem de fundo do certificado (passo 2) |
+| [exemplo.csv](downloads/exemplo.csv) | Planilha com 3 participantes fictícios (passo 1) |
+| [fundo-exemplo.png](downloads/fundo-exemplo.png) | Imagem de fundo do certificado (passo 2) |
 
 ## Como testar
 
@@ -18,4 +18,4 @@ Quer experimentar antes de usar seus dados? Baixe os dois arquivos abaixo.
 
 `nome`, `email`, `evento`, `data`, `hora`, `local`. Veja [Campos e filtros](CAMPOS.md) para usá-las nos textos.
 
-Os arquivos também estão no repositório, na pasta `exemplos/`.
+Os arquivos também estão no repositório, na pasta `src/pyticipantes/exemplos/`.
